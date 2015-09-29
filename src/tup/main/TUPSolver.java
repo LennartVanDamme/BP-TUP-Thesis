@@ -1,6 +1,8 @@
 package tup.main;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import localsolver.*;
@@ -119,12 +121,13 @@ public class TUPSolver {
              * First constraint for TUP
              * Every game umpired by exactly one umpire
              */
-            for (int u = 0; u <= this.problem.nUmpires-1; u++){
-            	LSExpression gamesUmpired = model.sum();
-                for (int g = 0; g < this.problem.nGames; g++){
-                    gamesUmpired.addOperand(umpireAssignment[u][g]);
-                }
-                model.constraint(model.eq(gamesUmpired,this.problem.nGames));
+            for(int g = 0; g <= this.problem.nGames-1; g++){
+            	LSExpression gameUmpired = this.model.sum();
+            	for(int u = 0; u <= this.problem.nUmpires-1; u++){
+            		gameUmpired.addOperand(umpireAssignment[u][g]);
+            	}
+            	this.model.constraint(this.model.eq(gameUmpired, 1));
+            	
             }
             
             
@@ -133,10 +136,10 @@ public class TUPSolver {
              * Every umpire works in every round
              */
             for (int u = 0; u <= this.problem.nUmpires-1; u++){
-                for (int r = 0; r <= this.problem.nGames-1; r+=gamesPerRound){
+                for (int r = 0; r <= this.problem.nRounds-1; r++){
                     LSExpression timesWorked = model.sum();
                     for (int g = 0; g <= gamesPerRound-1; g++){
-                        timesWorked.addOperand(umpireAssignment[u][r+g]);
+                        timesWorked.addOperand(umpireAssignment[u][r*(gamesPerRound)+g]);
                     }
                     model.constraint(model.eq(timesWorked, 1));
                 }
@@ -203,5 +206,25 @@ public class TUPSolver {
         }
     }
 
+    public void writeSolution(String outputFileName){
+    	try{
+    		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(outputFileName));
+    		
+    		bufferedWriter.write("Totale travel distance: " + totalDistanceTraveled.getValue()+"\n");
+    		for(int u = 0; u <= this.problem.nUmpires-1; u++ ){
+    			bufferedWriter.write("Games umpired door umpire"+(u+1)+"\n\t");
+    			for(int g = 0; g <= this.problem.nGames-1; g++){
+    				if(umpireAssignment[u][g].getValue()==1){
+    					bufferedWriter.write(this.problem.games[g][0]+","+this.problem.games[g][1]+"\t");
+    				}
+    			}
+    			bufferedWriter.write("\n");
+    		}
+    		bufferedWriter.close();
+    		
+    	} catch(IOException ie){
+    		ie.printStackTrace();
+    	}
+    }
 
 }
