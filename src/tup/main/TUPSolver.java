@@ -21,7 +21,7 @@ public class TUPSolver {
 	LSExpression[][][] teamsSeenPerRoundByUmpire;
 	LSExpression distanceGame;
 	Problem problem;
-	
+	Solution solution;
 	
 	int gamesPerRound;
     
@@ -47,15 +47,23 @@ public class TUPSolver {
         try{
 
             this.model = localsolver.getModel();
+            //this.problem.q1 = this.problem.nUmpires;
+            //this.problem.q2 = this.problem.nUmpires / 2;
             umpireAssignment = new LSExpression[this.problem.nUmpires][this.problem.nGames];
             umpireDistanceTraveled = new LSExpression[this.problem.nUmpires];
             timesTeamVisitedHome = new LSExpression[this.problem.nUmpires][this.problem.nTeams];
             teamsSeenPerRoundByUmpire = new LSExpression[this.problem.nUmpires][this.problem.nRounds][2];
-            distanceGame = this.model.array();
             
             for(int u = 0; u <= this.problem.nUmpires-1; u++){
             	for(int t = 0; t <= this.problem.nTeams-1; t++){
             		timesTeamVisitedHome[u][t] = this.model.sum();
+            	}
+            }
+            
+            for(int u = 0; u <= this.problem.nUmpires-1; u++){
+            	for(int r = 0; r <= this.problem.nRounds-1; r++){
+            		teamsSeenPerRoundByUmpire[u][r][0] = this.model.sum();
+            		teamsSeenPerRoundByUmpire[u][r][1] = this.model.sum();
             	}
             }
             
@@ -83,25 +91,6 @@ public class TUPSolver {
             			}
             		}
             	}
-            	
-            	/*int firstGame = 0;
-            	int secondGame = 0;
-            	for (int g = 0; g < gamesPerRound; g++){
-            		System.out.println(umpireAssignment[u][g].equals(1));
-            		if(umpireAssignment[u][g].equals(1)){
-            			firstGame = g;
-            		}
-            	}
-            	for(int r = 1; r <= this.problem.nRounds-1; r++){
-            		for(int g = 0; g <= gamesPerRound-1; g++){
-            			if(umpireAssignment[u][r*gamesPerRound+g].getIntValue()==1){
-            				secondGame = (r * gamesPerRound) + g;
-            			}
-            		}
-            		umpireDistanceTraveled[u].addOperand(this.problem.distGames[firstGame][secondGame]);
-            		firstGame = secondGame;
-            	}
-        		System.out.println();*/
             }
             
             // We take in account the times an umpire visist a home venue
@@ -110,8 +99,8 @@ public class TUPSolver {
 					LSExpression homeTeam = this.model.createConstant(this.problem.games[g][0]-1);
 					LSExpression awayTeam = this.model.createConstant(this.problem.games[g][1]-1);
 					timesTeamVisitedHome[u][this.problem.games[g][0]-1].addOperand(this.model.prod(1, umpireAssignment[u][g]));
-					teamsSeenPerRoundByUmpire[u][this.problem.gameToRound[g]][0] = this.model.prod(homeTeam, umpireAssignment[u][g]);
-					teamsSeenPerRoundByUmpire[u][this.problem.gameToRound[g]][1] = this.model.prod(awayTeam, umpireAssignment[u][g]);
+					teamsSeenPerRoundByUmpire[u][this.problem.gameToRound[g]][0].addOperand(this.model.prod(homeTeam, umpireAssignment[u][g]));
+					teamsSeenPerRoundByUmpire[u][this.problem.gameToRound[g]][1].addOperand(this.model.prod(awayTeam, umpireAssignment[u][g])); 
 					
 				}
 				
@@ -220,11 +209,29 @@ public class TUPSolver {
     			}
     			bufferedWriter.write("\n");
     		}
+    		bufferedWriter.write(solution.toString());
     		bufferedWriter.close();
     		
     	} catch(IOException ie){
     		ie.printStackTrace();
     	}
+    }
+    
+    public void solution(){
+    	this.solution = new Solution(this.problem);
+    	for(int u = 0; u <= this.problem.nUmpires-1; u++){
+    		for(int g = 0; g <= this.problem.nGames-1; g++){
+    			if(umpireAssignment[u][g].getValue()==1){
+    				solution.assignment[this.problem.gameToRound[g]][u] = g;
+    			}
+    		}
+    	}
+    	solution.printAssignmentDetail();
+    	solution.calculateConsecutiveViolations();
+    	solution.calculateHomeVisitViolations();
+    	solution.calculateTravelDistance();
+    	solution.calculateScore();
+    	System.out.println(solution.toString());
     }
 
 }
