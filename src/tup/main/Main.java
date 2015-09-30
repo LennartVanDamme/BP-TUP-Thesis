@@ -1,12 +1,14 @@
 package tup.main;
 
+import java.io.File;
+
 //import java.io.File;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
-		/*File dir = new File("/Users/Lennart/git/BP-TUP-Thesis/instances/");
+		File dir = new File("/Users/Lennart/git/BP-TUP-Thesis/instances/");
 		File [] instanceFiles = dir.listFiles();
 		for(File instanceFile : instanceFiles){
 			TUPSolver solver = new TUPSolver();
@@ -14,14 +16,15 @@ public class Main {
 	    	solver.gamesPerRound = solver.problem.nTeams / 2;
 	    	solver.solve(60);
 	    	solver.solution();
-	    	solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/"+instanceFile.getName());
-		}*/
+	    	solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/1min(max)/"+instanceFile.getName());
+		}
 		
-		TUPSolver solver = new TUPSolver();
+		/*TUPSolver solver = new TUPSolver();
 		solver.readInstance("/Users/Lennart/git/BP-TUP-Thesis/instances/umps8.txt");
 		solver.gamesPerRound = solver.problem.nTeams / 2;
 		solver.solve(20);
 		solver.solution();
+		solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/1min/umps8q1=2.txt");
 		for(int u = 0; u <= solver.problem.nUmpires-1; u++){
 			System.out.println("timesTeamVisistedHome umpire"+u);
 			for(int t = 0; t <= solver.problem.nTeams-1; t++){
@@ -35,7 +38,7 @@ public class Main {
 			+solver.teamsSeenPerRoundByUmpire[u][r][1].getValue());
 			}
 			System.out.println();
-		}
+		}*/
 		
 	}
 

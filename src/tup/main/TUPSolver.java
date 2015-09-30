@@ -47,8 +47,13 @@ public class TUPSolver {
         try{
 
             this.model = localsolver.getModel();
-            //this.problem.q1 = this.problem.nUmpires;
-            //this.problem.q2 = this.problem.nUmpires / 2;
+            
+            this.problem.q1 = this.problem.nUmpires;
+            this.problem.q2 = this.problem.nUmpires / 2;
+            
+            //this.problem.q1 = this.problem.nUmpires / 2;
+            //this.problem.q2 = this.problem.nUmpires / 4;
+            
             umpireAssignment = new LSExpression[this.problem.nUmpires][this.problem.nGames];
             umpireDistanceTraveled = new LSExpression[this.problem.nUmpires];
             timesTeamVisitedHome = new LSExpression[this.problem.nUmpires][this.problem.nTeams];
@@ -96,11 +101,9 @@ public class TUPSolver {
             // We take in account the times an umpire visist a home venue
             for (int u = 0; u <= this.problem.nUmpires-1; u++) {
 				for (int g = 0; g <= this.problem.nGames-1; g++) {
-					LSExpression homeTeam = this.model.createConstant(this.problem.games[g][0]-1);
-					LSExpression awayTeam = this.model.createConstant(this.problem.games[g][1]-1);
 					timesTeamVisitedHome[u][this.problem.games[g][0]-1].addOperand(this.model.prod(1, umpireAssignment[u][g]));
-					teamsSeenPerRoundByUmpire[u][this.problem.gameToRound[g]][0].addOperand(this.model.prod(homeTeam, umpireAssignment[u][g]));
-					teamsSeenPerRoundByUmpire[u][this.problem.gameToRound[g]][1].addOperand(this.model.prod(awayTeam, umpireAssignment[u][g])); 
+					teamsSeenPerRoundByUmpire[u][this.problem.gameToRound[g]][0].addOperand(this.model.prod((this.problem.games[g][0]-1), umpireAssignment[u][g]));
+					teamsSeenPerRoundByUmpire[u][this.problem.gameToRound[g]][1].addOperand(this.model.prod((this.problem.games[g][1]-1), umpireAssignment[u][g])); 
 					
 				}
 				
@@ -150,7 +153,7 @@ public class TUPSolver {
              * No umpire is at the same venue more than q1 rounds
              */
             
-            /*for(int u = 0; u <= this.problem.nUmpires-1; u++){
+            for(int u = 0; u <= this.problem.nUmpires-1; u++){
         		for (int r = 0; r <= this.problem.nRounds-1; r++){
         			int teller = 1;
         			while(teller <= this.problem.q1 && r+teller < this.problem.nRounds){
@@ -158,14 +161,14 @@ public class TUPSolver {
         				teller++;
         			}
         		}
-        	}*/
+        	}
             
             /**
              * Fifth constraint for TUP
              * No umpire sees the same team more than once in q2 rounds
              */
             
-            /*for(int u = 0; u <= this.problem.nUmpires-1; u++){
+            for(int u = 0; u <= this.problem.nUmpires-1; u++){
             	for(int r = 0; r <= this.problem.nRounds-1; r++){
             		int teller = 1;
             		while (teller <= this.problem.q2 && r+teller < this.problem.nRounds){
@@ -176,7 +179,7 @@ public class TUPSolver {
             			teller++;
             		}
             	}
-            }*/
+            }
             
             
             totalDistanceTraveled = model.sum(umpireDistanceTraveled);
