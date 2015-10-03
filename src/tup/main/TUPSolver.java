@@ -22,6 +22,7 @@ public class TUPSolver {
 	LSExpression distanceGame;
 	Problem problem;
 	Solution solution;
+	LSSolution lsSolution;
 	
 	int gamesPerRound;
     
@@ -47,13 +48,6 @@ public class TUPSolver {
         try{
 
             this.model = localsolver.getModel();
-            
-            this.problem.q1 = this.problem.nUmpires;
-            this.problem.q2 = this.problem.nUmpires / 2;
-            
-            //this.problem.q1 = this.problem.nUmpires / 2;
-            //this.problem.q2 = this.problem.nUmpires / 4;
-            
             umpireAssignment = new LSExpression[this.problem.nUmpires][this.problem.nGames];
             umpireDistanceTraveled = new LSExpression[this.problem.nUmpires];
             timesTeamVisitedHome = new LSExpression[this.problem.nUmpires][this.problem.nTeams];
@@ -104,7 +98,6 @@ public class TUPSolver {
 					timesTeamVisitedHome[u][this.problem.games[g][0]-1].addOperand(this.model.prod(1, umpireAssignment[u][g]));
 					teamsSeenPerRoundByUmpire[u][this.problem.gameToRound[g]][0].addOperand(this.model.prod((this.problem.games[g][0]-1), umpireAssignment[u][g]));
 					teamsSeenPerRoundByUmpire[u][this.problem.gameToRound[g]][1].addOperand(this.model.prod((this.problem.games[g][1]-1), umpireAssignment[u][g])); 
-					
 				}
 				
 			}
@@ -119,10 +112,8 @@ public class TUPSolver {
             		gameUmpired.addOperand(umpireAssignment[u][g]);
             	}
             	this.model.constraint(this.model.eq(gameUmpired, 1));
-            	
             }
-            
-            
+
             /**
              * Second constraint for TUP
              * Every umpire works in every round
@@ -141,7 +132,6 @@ public class TUPSolver {
              * Third constraint for TUP
              * Every umpire must visit the home venue of every team at least once
              */
-            
             for (int u = 0; u <= this.problem.nUmpires-1; u++){
                 for (int t = 0; t <= this.problem.nTeams-1; t++){
                     model.constraint(model.geq(timesTeamVisitedHome[u][t], 1));
@@ -152,11 +142,10 @@ public class TUPSolver {
              * Fourth constraint for TUP
              * No umpire is at the same venue more than q1 rounds
              */
-            
             for(int u = 0; u <= this.problem.nUmpires-1; u++){
         		for (int r = 0; r <= this.problem.nRounds-1; r++){
         			int teller = 1;
-        			while(teller <= this.problem.q1 && r+teller < this.problem.nRounds){
+        			while(teller < this.problem.q1 && r+teller < this.problem.nRounds){
         				model.constraint(model.neq(teamsSeenPerRoundByUmpire[u][r][0], teamsSeenPerRoundByUmpire[u][r+teller][0]));
         				teller++;
         			}
@@ -167,11 +156,10 @@ public class TUPSolver {
              * Fifth constraint for TUP
              * No umpire sees the same team more than once in q2 rounds
              */
-            
             for(int u = 0; u <= this.problem.nUmpires-1; u++){
             	for(int r = 0; r <= this.problem.nRounds-1; r++){
             		int teller = 1;
-            		while (teller <= this.problem.q2 && r+teller < this.problem.nRounds){
+            		while (teller < this.problem.q2 && r+teller < this.problem.nRounds){
             			model.constraint(model.neq(teamsSeenPerRoundByUmpire[u][r][0], teamsSeenPerRoundByUmpire[u][r+teller][0]));
             			model.constraint(model.neq(teamsSeenPerRoundByUmpire[u][r][0], teamsSeenPerRoundByUmpire[u][r+teller][1]));
             			model.constraint(model.neq(teamsSeenPerRoundByUmpire[u][r][1], teamsSeenPerRoundByUmpire[u][r+teller][0]));
@@ -180,7 +168,6 @@ public class TUPSolver {
             		}
             	}
             }
-            
             
             totalDistanceTraveled = model.sum(umpireDistanceTraveled);
             model.minimize(totalDistanceTraveled);
@@ -191,6 +178,7 @@ public class TUPSolver {
             phase.setTimeLimit(limit);
 
             localsolver.solve();
+            lsSolution = localsolver.getSolution();
 
         } catch (LSException e){
             System.out.println("LSException: " + e.getMessage());
@@ -210,8 +198,9 @@ public class TUPSolver {
     					bufferedWriter.write(this.problem.games[g][0]+","+this.problem.games[g][1]+"\t");
     				}
     			}
-    			bufferedWriter.write("\n");
+    			bufferedWriter.write("\n\n");
     		}
+    		bufferedWriter.write("Solution Status from LocalSolver: "+lsSolution.getStatus().toString()+"\n\n");
     		bufferedWriter.write(solution.toString());
     		bufferedWriter.close();
     		
