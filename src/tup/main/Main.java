@@ -2,78 +2,43 @@ package tup.main;
 
 import java.io.File;
 
+import com.sun.xml.internal.ws.runtime.config.TubeFactoryConfig;
+
 //import java.io.File;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
-		File dir = new File("/Users/Lennart/git/BP-TUP-Thesis/instances/");
+		TUPSolver solver = new TUPSolver();
+		solver.readInstance("/Users/Lennart/git/BP-TUP-Thesis/instances/umps8A.txt");
+    	solver.gamesPerRound = solver.problem.nTeams / 2;
+    	solver.problem.q1 = solver.problem.nUmpires;
+        solver.problem.q2 = solver.problem.nUmpires / 4;
+    	solver.solve(600);
+    	solver.solution();
+    	solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/10min(max-half)/umps8A.txt");
+    	
+    	TUPSolver solver1 = new TUPSolver();
+    	solver1.readInstance("/Users/Lennart/git/BP-TUP-Thesis/instances/umps8B.txt");
+    	solver1.gamesPerRound = solver.problem.nTeams / 2;
+    	solver1.problem.q1 = solver.problem.nUmpires;
+    	solver1.problem.q2 = solver.problem.nUmpires / 4;
+    	solver1.solve(600);
+    	solver1.solution();
+    	solver1.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/10min(max-half)/umps8B.txt");
+    	
+    	TUPSolver solver2 = new TUPSolver();
+    	solver2.readInstance("/Users/Lennart/git/BP-TUP-Thesis/instances/umps8C.txt");
+    	solver2.gamesPerRound = solver.problem.nTeams / 2;
+    	solver2.problem.q1 = solver.problem.nUmpires;
+    	solver2.problem.q2 = solver.problem.nUmpires / 4;
+    	solver2.solve(600);
+    	solver2.solution();
+    	solver2.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/10min(max-half)/umps8C.txt");
+		
+		/*File dir = new File("/Users/Lennart/git/BP-TUP-Thesis/instances/");
 		File [] instanceFiles = dir.listFiles();
-		
-		/*// Instances ran 1 min
-		for(File instanceFile : instanceFiles){
-			TUPSolver solver = new TUPSolver();
-			solver.readInstance(instanceFile.getAbsolutePath());
-	    	solver.gamesPerRound = solver.problem.nTeams / 2;
-	    	solver.solve(60);
-	    	solver.solution();
-	    	solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/1min(off)/"+instanceFile.getName());
-		}
-		
-		for(File instanceFile : instanceFiles){
-			TUPSolver solver = new TUPSolver();
-	    	solver.readInstance(instanceFile.getAbsolutePath());
-	    	solver.gamesPerRound = solver.problem.nTeams / 2;
-	    	solver.problem.q1 = solver.problem.nUmpires / 2;
-            solver.problem.q2 = solver.problem.nUmpires / 4;
-            solver.solve(60);
-	    	solver.solution();
-	    	solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/1min(half-half)/"+instanceFile.getName());
-		}
-		
-		for(File instanceFile : instanceFiles){
-			TUPSolver solver = new TUPSolver();
-	    	solver.readInstance(instanceFile.getAbsolutePath());
-	    	solver.gamesPerRound = solver.problem.nTeams / 2;
-	    	solver.problem.q1 = solver.problem.nUmpires;
-	    	solver.problem.q2 = solver.problem.nUmpires / 4;
-	    	solver.solve(60);
-	    	solver.solution();
-	    	solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/1min(max-half)/"+instanceFile.getName());
-		}
-		
-		for(File instanceFile : instanceFiles){
-			TUPSolver solver = new TUPSolver();
-	    	solver.readInstance(instanceFile.getAbsolutePath());
-	    	solver.gamesPerRound = solver.problem.nTeams / 2;
-	    	solver.problem.q1 = solver.problem.nUmpires;
-            solver.problem.q2 = solver.problem.nUmpires / 2;
-	    	solver.solve(60);
-	    	solver.solution();
-	    	solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/1min(max)/"+instanceFile.getName());
-		}*/
-		
-		// Instances ran 5 min
-		for(File instanceFile : instanceFiles){
-			TUPSolver solver = new TUPSolver();
-	    	solver.readInstance(instanceFile.getAbsolutePath());
-	    	solver.gamesPerRound = solver.problem.nTeams / 2;
-	    	solver.solve(600);
-	    	solver.solution();
-	    	solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/10min(off)/"+instanceFile.getName());
-		}
-		
-		for(File instanceFile : instanceFiles){
-			TUPSolver solver = new TUPSolver();
-	    	solver.readInstance(instanceFile.getAbsolutePath());
-	    	solver.gamesPerRound = solver.problem.nTeams / 2;
-	    	solver.problem.q1 = solver.problem.nUmpires / 2;
-            solver.problem.q2 = solver.problem.nUmpires / 4;
-	    	solver.solve(600);
-	    	solver.solution();
-	    	solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/10min(half-half)/"+instanceFile.getName());
-		}
 		
 		for(File instanceFile : instanceFiles){
 			TUPSolver solver = new TUPSolver();
@@ -95,51 +60,6 @@ public class Main {
 	    	solver.solve(600);
 	    	solver.solution();
 	    	solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/10min(max)/"+instanceFile.getName());
-		}
-		
-		/*// Instances ran 30 min
-		for(File instanceFile : instanceFiles){
-			TUPSolver solver = new TUPSolver();
-	    	solver.readInstance(instanceFile.getAbsolutePath());
-	    	solver.gamesPerRound = solver.problem.nTeams / 2;
-	    	solver.problem.q1 = solver.problem.nUmpires;
-            solver.problem.q2 = solver.problem.nUmpires / 2;
-	    	solver.solve(1800);
-	    	solver.solution();
-	    	solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/30min(max)/"+instanceFile.getName());
-		}*/
-		
-		/*for(File instanceFile : instanceFiles){
-			TUPSolver solver = new TUPSolver();
-	    	solver.readInstance(instanceFile.getAbsolutePath());
-	    	solver.gamesPerRound = solver.problem.nTeams / 2;
-	    	solver.problem.q1 = solver.problem.nUmpires;
-            solver.problem.q2 = solver.problem.nUmpires / 2;
-	    	solver.solve(60);
-	    	solver.solution();
-	    	solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/1min(max)/"+instanceFile.getName());
-		}
-		
-		for(File instanceFile : instanceFiles){
-			TUPSolver solver = new TUPSolver();
-	    	solver.readInstance(instanceFile.getAbsolutePath());
-	    	solver.gamesPerRound = solver.problem.nTeams / 2;
-	    	solver.problem.q1 = solver.problem.nUmpires;
-            solver.problem.q2 = solver.problem.nUmpires / 2;
-	    	solver.solve(60);
-	    	solver.solution();
-	    	solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/1min(max)/"+instanceFile.getName());
-		}
-		
-		for(File instanceFile : instanceFiles){
-			TUPSolver solver = new TUPSolver();
-	    	solver.readInstance(instanceFile.getAbsolutePath());
-	    	solver.gamesPerRound = solver.problem.nTeams / 2;
-	    	solver.problem.q1 = solver.problem.nUmpires;
-            solver.problem.q2 = solver.problem.nUmpires / 2;
-	    	solver.solve(60);
-	    	solver.solution();
-	    	solver.writeSolution("/Users/Lennart/git/BP-TUP-Thesis/outputFiles/1min(max)/"+instanceFile.getName());
 		}*/
 		
 	}
