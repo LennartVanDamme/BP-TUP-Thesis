@@ -24,11 +24,12 @@ public class TUPSolver {
 	Solution solution;
 	LSSolution lsSolution;
 	
-	int gamesPerRound;
+	int gamesPerRound, annealingLvl;
     
-	public TUPSolver(){
+	public TUPSolver(int annealingLvl){
 		this.localsolver = new LocalSolver();
-		this.model = localsolver.getModel();
+		this.model = this.localsolver.getModel();
+		this.annealingLvl = annealingLvl;
 	}
 	
 	public void readInstance(String path){
@@ -47,7 +48,6 @@ public class TUPSolver {
     public void solve(int limit){
         try{
 
-            this.model = localsolver.getModel();
             umpireAssignment = new LSExpression[this.problem.nUmpires][this.problem.nGames];
             umpireDistanceTraveled = new LSExpression[this.problem.nUmpires];
             timesTeamVisitedHome = new LSExpression[this.problem.nUmpires][this.problem.nTeams];
@@ -170,12 +170,14 @@ public class TUPSolver {
             }
             
             totalDistanceTraveled = model.sum(umpireDistanceTraveled);
-            model.minimize(totalDistanceTraveled);
+            this.model.minimize(totalDistanceTraveled);
 
-            model.close();
+            this.model.close();
 
             LSPhase phase = localsolver.createPhase();
             phase.setTimeLimit(limit);
+            
+            this.localsolver.getParam().setAnnealingLevel(annealingLvl);
 
             localsolver.solve();
             lsSolution = localsolver.getSolution();
