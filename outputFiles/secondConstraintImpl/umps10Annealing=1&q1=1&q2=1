@@ -1,0 +1,311 @@
+Totale travel distance: 43862
+Games umpired door umpire1
+	9,2	7,2	4,2	3,4	8,6	2,7	4,7	1,2	7,9	9,6	6,5	5,7	6,2	1,9	10,2	2,5	9,10	10,7	
+
+Games umpired door umpire2
+	6,7	4,9	3,9	8,1	9,5	10,8	8,9	8,4	10,4	2,1	3,10	2,10	5,9	7,6	1,4	8,10	3,1	5,1	
+
+Games umpired door umpire3
+	1,8	1,10	6,8	10,6	2,4	5,3	1,3	5,6	8,5	7,4	9,7	4,8	4,10	10,3	3,5	3,6	4,5	9,8	
+
+Games umpired door umpire4
+	4,3	6,3	7,10	2,9	3,7	9,1	6,10	7,3	1,6	10,5	2,8	6,1	1,7	5,4	6,9	7,1	8,7	2,3	
+
+Games umpired door umpire5
+	5,10	5,8	1,5	7,5	10,1	6,4	5,2	10,9	3,2	3,8	4,1	9,3	8,3	8,2	7,8	9,4	2,6	4,6	
+
+Solution Status from LocalSolver: Infeasible
+
+Solution [travelDistance=43862, homeVisitViolations=0, consecutiveHomeVisitViolations=0, consecutiveTeamSeenViolations=0]
+-1--2--3--4--5-
+ [9, 2]  [6, 7]  [1, 8]  [4, 3]  [5, 10] 
+ [7, 2]  [4, 9]  [1, 10]  [6, 3]  [5, 8] 
+ [4, 2]  [3, 9]  [6, 8]  [7, 10]  [1, 5] 
+ [3, 4]  [8, 1]  [10, 6]  [2, 9]  [7, 5] 
+ [8, 6]  [9, 5]  [2, 4]  [3, 7]  [10, 1] 
+ [2, 7]  [10, 8]  [5, 3]  [9, 1]  [6, 4] 
+ [4, 7]  [8, 9]  [1, 3]  [6, 10]  [5, 2] 
+ [1, 2]  [8, 4]  [5, 6]  [7, 3]  [10, 9] 
+ [7, 9]  [10, 4]  [8, 5]  [1, 6]  [3, 2] 
+ [9, 6]  [2, 1]  [7, 4]  [10, 5]  [3, 8] 
+ [6, 5]  [3, 10]  [9, 7]  [2, 8]  [4, 1] 
+ [5, 7]  [2, 10]  [4, 8]  [6, 1]  [9, 3] 
+ [6, 2]  [5, 9]  [4, 10]  [1, 7]  [8, 3] 
+ [1, 9]  [7, 6]  [10, 3]  [5, 4]  [8, 2] 
+ [10, 2]  [1, 4]  [3, 5]  [6, 9]  [7, 8] 
+ [2, 5]  [8, 10]  [3, 6]  [7, 1]  [9, 4] 
+ [9, 10]  [3, 1]  [4, 5]  [8, 7]  [2, 6] 
+ [10, 7]  [5, 1]  [9, 8]  [2, 3]  [4, 6] 
+----------
+Violated Constrainsts
+Umpire(0) Constraint 4: 8 Round: 0  game in that round: 4
+	Value: 0Umpire(0) Constraint 4: 6 Round: 1  game in that round: 9
+	Value: 0Umpire(0) Constraint 4: 3 Round: 2  game in that round: 12
+	Value: 0Umpire(0) Constraint 4: 2 Round: 3  game in that round: 16
+	Value: 0Umpire(0) Constraint 4: 7 Round: 4  game in that round: 22
+	Value: 0Umpire(0) Constraint 4: 1 Round: 5  game in that round: 25
+	Value: 0Umpire(0) Constraint 4: 3 Round: 6  game in that round: 31
+	Value: 0Umpire(0) Constraint 4: 0 Round: 7  game in that round: 35
+	Value: 0Umpire(0) Constraint 4: 6 Round: 8  game in that round: 42
+	Value: 0Umpire(0) Constraint 4: 8 Round: 9  game in that round: 48
+	Value: 0Umpire(0) Constraint 4: 5 Round: 10  game in that round: 53
+	Value: 0Umpire(0) Constraint 4: 4 Round: 11  game in that round: 57
+	Value: 0Umpire(0) Constraint 4: 5 Round: 12  game in that round: 63
+	Value: 0Umpire(0) Constraint 4: 0 Round: 13  game in that round: 65
+	Value: 0Umpire(0) Constraint 4: 9 Round: 14  game in that round: 74
+	Value: 0Umpire(0) Constraint 4: 1 Round: 15  game in that round: 75
+	Value: 0Umpire(0) Constraint 4: 8 Round: 16  game in that round: 84
+	Value: 0Umpire(0) Constraint 4: 9 Round: 17  game in that round: 89
+	Value: 0Umpire(1) Constraint 4: 5 Round: 0  game in that round: 3
+	Value: 0Umpire(1) Constraint 4: 3 Round: 1  game in that round: 6
+	Value: 0Umpire(1) Constraint 4: 2 Round: 2  game in that round: 11
+	Value: 0Umpire(1) Constraint 4: 7 Round: 3  game in that round: 18
+	Value: 0Umpire(1) Constraint 4: 8 Round: 4  game in that round: 23
+	Value: 0Umpire(1) Constraint 4: 9 Round: 5  game in that round: 29
+	Value: 0Umpire(1) Constraint 4: 7 Round: 6  game in that round: 34
+	Value: 0Umpire(1) Constraint 4: 7 Round: 7  game in that round: 38
+	Value: 0Umpire(1) Constraint 4: 9 Round: 8  game in that round: 44
+	Value: 0Umpire(1) Constraint 4: 1 Round: 9  game in that round: 45
+	Value: 0Umpire(1) Constraint 4: 2 Round: 10  game in that round: 51
+	Value: 0Umpire(1) Constraint 4: 1 Round: 11  game in that round: 55
+	Value: 0Umpire(1) Constraint 4: 4 Round: 12  game in that round: 62
+	Value: 0Umpire(1) Constraint 4: 6 Round: 13  game in that round: 67
+	Value: 0Umpire(1) Constraint 4: 0 Round: 14  game in that round: 70
+	Value: 0Umpire(1) Constraint 4: 7 Round: 15  game in that round: 78
+	Value: 0Umpire(1) Constraint 4: 2 Round: 16  game in that round: 81
+	Value: 0Umpire(1) Constraint 4: 4 Round: 17  game in that round: 87
+	Value: 0Umpire(2) Constraint 4: 0 Round: 0  game in that round: 0
+	Value: 0Umpire(2) Constraint 4: 0 Round: 1  game in that round: 5
+	Value: 0Umpire(2) Constraint 4: 5 Round: 2  game in that round: 13
+	Value: 0Umpire(2) Constraint 4: 9 Round: 3  game in that round: 19
+	Value: 0Umpire(2) Constraint 4: 1 Round: 4  game in that round: 20
+	Value: 0Umpire(2) Constraint 4: 4 Round: 5  game in that round: 26
+	Value: 0Umpire(2) Constraint 4: 0 Round: 6  game in that round: 30
+	Value: 0Umpire(2) Constraint 4: 4 Round: 7  game in that round: 36
+	Value: 0Umpire(2) Constraint 4: 7 Round: 8  game in that round: 43
+	Value: 0Umpire(2) Constraint 4: 6 Round: 9  game in that round: 47
+	Value: 0Umpire(2) Constraint 4: 8 Round: 10  game in that round: 54
+	Value: 0Umpire(2) Constraint 4: 3 Round: 11  game in that round: 56
+	Value: 0Umpire(2) Constraint 4: 3 Round: 12  game in that round: 61
+	Value: 0Umpire(2) Constraint 4: 9 Round: 13  game in that round: 69
+	Value: 0Umpire(2) Constraint 4: 2 Round: 14  game in that round: 71
+	Value: 0Umpire(2) Constraint 4: 2 Round: 15  game in that round: 76
+	Value: 0Umpire(2) Constraint 4: 3 Round: 16  game in that round: 82
+	Value: 0Umpire(2) Constraint 4: 8 Round: 17  game in that round: 88
+	Value: 0Umpire(3) Constraint 4: 3 Round: 0  game in that round: 1
+	Value: 0Umpire(3) Constraint 4: 5 Round: 1  game in that round: 8
+	Value: 0Umpire(3) Constraint 4: 6 Round: 2  game in that round: 14
+	Value: 0Umpire(3) Constraint 4: 1 Round: 3  game in that round: 15
+	Value: 0Umpire(3) Constraint 4: 2 Round: 4  game in that round: 21
+	Value: 0Umpire(3) Constraint 4: 8 Round: 5  game in that round: 28
+	Value: 0Umpire(3) Constraint 4: 5 Round: 6  game in that round: 33
+	Value: 0Umpire(3) Constraint 4: 6 Round: 7  game in that round: 37
+	Value: 0Umpire(3) Constraint 4: 0 Round: 8  game in that round: 40
+	Value: 0Umpire(3) Constraint 4: 9 Round: 9  game in that round: 49
+	Value: 0Umpire(3) Constraint 4: 1 Round: 10  game in that round: 50
+	Value: 0Umpire(3) Constraint 4: 5 Round: 11  game in that round: 58
+	Value: 0Umpire(3) Constraint 4: 0 Round: 12  game in that round: 60
+	Value: 0Umpire(3) Constraint 4: 4 Round: 13  game in that round: 66
+	Value: 0Umpire(3) Constraint 4: 5 Round: 14  game in that round: 72
+	Value: 0Umpire(3) Constraint 4: 6 Round: 15  game in that round: 77
+	Value: 0Umpire(3) Constraint 4: 7 Round: 16  game in that round: 83
+	Value: 0Umpire(3) Constraint 4: 1 Round: 17  game in that round: 85
+	Value: 0Umpire(4) Constraint 4: 4 Round: 0  game in that round: 2
+	Value: 0Umpire(4) Constraint 4: 4 Round: 1  game in that round: 7
+	Value: 0Umpire(4) Constraint 4: 0 Round: 2  game in that round: 10
+	Value: 0Umpire(4) Constraint 4: 6 Round: 3  game in that round: 17
+	Value: 0Umpire(4) Constraint 4: 9 Round: 4  game in that round: 24
+	Value: 0Umpire(4) Constraint 4: 5 Round: 5  game in that round: 27
+	Value: 0Umpire(4) Constraint 4: 4 Round: 6  game in that round: 32
+	Value: 0Umpire(4) Constraint 4: 9 Round: 7  game in that round: 39
+	Value: 0Umpire(4) Constraint 4: 2 Round: 8  game in that round: 41
+	Value: 0Umpire(4) Constraint 4: 2 Round: 9  game in that round: 46
+	Value: 0Umpire(4) Constraint 4: 3 Round: 10  game in that round: 52
+	Value: 0Umpire(4) Constraint 4: 8 Round: 11  game in that round: 59
+	Value: 0Umpire(4) Constraint 4: 7 Round: 12  game in that round: 64
+	Value: 0Umpire(4) Constraint 4: 7 Round: 13  game in that round: 68
+	Value: 0Umpire(4) Constraint 4: 6 Round: 14  game in that round: 73
+	Value: 0Umpire(4) Constraint 4: 8 Round: 15  game in that round: 79
+	Value: 0Umpire(4) Constraint 4: 1 Round: 16  game in that round: 80
+	Value: 0Umpire(4) Constraint 4: 3 Round: 17  game in that round: 86
+	Value: 0Umpire(0) Constraint 5: 8	Round: 0  game in that round: 4
+	Value: 0Umpire(0) Constraint 5: 1	Round: 0  game in that round: 4
+	Value: 0Umpire(0) Constraint 5: 6	Round: 1  game in that round: 9
+	Value: 0Umpire(0) Constraint 5: 1	Round: 1  game in that round: 9
+	Value: 0Umpire(0) Constraint 5: 3	Round: 2  game in that round: 12
+	Value: 0Umpire(0) Constraint 5: 1	Round: 2  game in that round: 12
+	Value: 0Umpire(0) Constraint 5: 2	Round: 3  game in that round: 16
+	Value: 0Umpire(0) Constraint 5: 3	Round: 3  game in that round: 16
+	Value: 0Umpire(0) Constraint 5: 7	Round: 4  game in that round: 22
+	Value: 0Umpire(0) Constraint 5: 5	Round: 4  game in that round: 22
+	Value: 0Umpire(0) Constraint 5: 1	Round: 5  game in that round: 25
+	Value: 0Umpire(0) Constraint 5: 6	Round: 5  game in that round: 25
+	Value: 0Umpire(0) Constraint 5: 3	Round: 6  game in that round: 31
+	Value: 0Umpire(0) Constraint 5: 6	Round: 6  game in that round: 31
+	Value: 0Umpire(0) Constraint 5: 0	Round: 7  game in that round: 35
+	Value: 0Umpire(0) Constraint 5: 1	Round: 7  game in that round: 35
+	Value: 0Umpire(0) Constraint 5: 6	Round: 8  game in that round: 42
+	Value: 0Umpire(0) Constraint 5: 8	Round: 8  game in that round: 42
+	Value: 0Umpire(0) Constraint 5: 8	Round: 9  game in that round: 48
+	Value: 0Umpire(0) Constraint 5: 5	Round: 9  game in that round: 48
+	Value: 0Umpire(0) Constraint 5: 5	Round: 10  game in that round: 53
+	Value: 0Umpire(0) Constraint 5: 4	Round: 10  game in that round: 53
+	Value: 0Umpire(0) Constraint 5: 4	Round: 11  game in that round: 57
+	Value: 0Umpire(0) Constraint 5: 6	Round: 11  game in that round: 57
+	Value: 0Umpire(0) Constraint 5: 5	Round: 12  game in that round: 63
+	Value: 0Umpire(0) Constraint 5: 1	Round: 12  game in that round: 63
+	Value: 0Umpire(0) Constraint 5: 0	Round: 13  game in that round: 65
+	Value: 0Umpire(0) Constraint 5: 8	Round: 13  game in that round: 65
+	Value: 0Umpire(0) Constraint 5: 9	Round: 14  game in that round: 74
+	Value: 0Umpire(0) Constraint 5: 1	Round: 14  game in that round: 74
+	Value: 0Umpire(0) Constraint 5: 1	Round: 15  game in that round: 75
+	Value: 0Umpire(0) Constraint 5: 4	Round: 15  game in that round: 75
+	Value: 0Umpire(0) Constraint 5: 8	Round: 16  game in that round: 84
+	Value: 0Umpire(0) Constraint 5: 9	Round: 16  game in that round: 84
+	Value: 0Umpire(0) Constraint 5: 9	Round: 17  game in that round: 89
+	Value: 0Umpire(0) Constraint 5: 6	Round: 17  game in that round: 89
+	Value: 0Umpire(1) Constraint 5: 5	Round: 0  game in that round: 3
+	Value: 0Umpire(1) Constraint 5: 6	Round: 0  game in that round: 3
+	Value: 0Umpire(1) Constraint 5: 3	Round: 1  game in that round: 6
+	Value: 0Umpire(1) Constraint 5: 8	Round: 1  game in that round: 6
+	Value: 0Umpire(1) Constraint 5: 2	Round: 2  game in that round: 11
+	Value: 0Umpire(1) Constraint 5: 8	Round: 2  game in that round: 11
+	Value: 0Umpire(1) Constraint 5: 7	Round: 3  game in that round: 18
+	Value: 0Umpire(1) Constraint 5: 0	Round: 3  game in that round: 18
+	Value: 0Umpire(1) Constraint 5: 8	Round: 4  game in that round: 23
+	Value: 0Umpire(1) Constraint 5: 4	Round: 4  game in that round: 23
+	Value: 0Umpire(1) Constraint 5: 9	Round: 5  game in that round: 29
+	Value: 0Umpire(1) Constraint 5: 7	Round: 5  game in that round: 29
+	Value: 0Umpire(1) Constraint 5: 7	Round: 6  game in that round: 34
+	Value: 0Umpire(1) Constraint 5: 8	Round: 6  game in that round: 34
+	Value: 0Umpire(1) Constraint 5: 7	Round: 7  game in that round: 38
+	Value: 0Umpire(1) Constraint 5: 3	Round: 7  game in that round: 38
+	Value: 0Umpire(1) Constraint 5: 9	Round: 8  game in that round: 44
+	Value: 0Umpire(1) Constraint 5: 3	Round: 8  game in that round: 44
+	Value: 0Umpire(1) Constraint 5: 1	Round: 9  game in that round: 45
+	Value: 0Umpire(1) Constraint 5: 0	Round: 9  game in that round: 45
+	Value: 0Umpire(1) Constraint 5: 2	Round: 10  game in that round: 51
+	Value: 0Umpire(1) Constraint 5: 9	Round: 10  game in that round: 51
+	Value: 0Umpire(1) Constraint 5: 1	Round: 11  game in that round: 55
+	Value: 0Umpire(1) Constraint 5: 9	Round: 11  game in that round: 55
+	Value: 0Umpire(1) Constraint 5: 4	Round: 12  game in that round: 62
+	Value: 0Umpire(1) Constraint 5: 8	Round: 12  game in that round: 62
+	Value: 0Umpire(1) Constraint 5: 6	Round: 13  game in that round: 67
+	Value: 0Umpire(1) Constraint 5: 5	Round: 13  game in that round: 67
+	Value: 0Umpire(1) Constraint 5: 0	Round: 14  game in that round: 70
+	Value: 0Umpire(1) Constraint 5: 3	Round: 14  game in that round: 70
+	Value: 0Umpire(1) Constraint 5: 7	Round: 15  game in that round: 78
+	Value: 0Umpire(1) Constraint 5: 9	Round: 15  game in that round: 78
+	Value: 0Umpire(1) Constraint 5: 2	Round: 16  game in that round: 81
+	Value: 0Umpire(1) Constraint 5: 0	Round: 16  game in that round: 81
+	Value: 0Umpire(1) Constraint 5: 4	Round: 17  game in that round: 87
+	Value: 0Umpire(1) Constraint 5: 0	Round: 17  game in that round: 87
+	Value: 0Umpire(2) Constraint 5: 0	Round: 0  game in that round: 0
+	Value: 0Umpire(2) Constraint 5: 7	Round: 0  game in that round: 0
+	Value: 0Umpire(2) Constraint 5: 0	Round: 1  game in that round: 5
+	Value: 0Umpire(2) Constraint 5: 9	Round: 1  game in that round: 5
+	Value: 0Umpire(2) Constraint 5: 5	Round: 2  game in that round: 13
+	Value: 0Umpire(2) Constraint 5: 7	Round: 2  game in that round: 13
+	Value: 0Umpire(2) Constraint 5: 9	Round: 3  game in that round: 19
+	Value: 0Umpire(2) Constraint 5: 5	Round: 3  game in that round: 19
+	Value: 0Umpire(2) Constraint 5: 1	Round: 4  game in that round: 20
+	Value: 0Umpire(2) Constraint 5: 3	Round: 4  game in that round: 20
+	Value: 0Umpire(2) Constraint 5: 4	Round: 5  game in that round: 26
+	Value: 0Umpire(2) Constraint 5: 2	Round: 5  game in that round: 26
+	Value: 0Umpire(2) Constraint 5: 0	Round: 6  game in that round: 30
+	Value: 0Umpire(2) Constraint 5: 2	Round: 6  game in that round: 30
+	Value: 0Umpire(2) Constraint 5: 4	Round: 7  game in that round: 36
+	Value: 0Umpire(2) Constraint 5: 5	Round: 7  game in that round: 36
+	Value: 0Umpire(2) Constraint 5: 7	Round: 8  game in that round: 43
+	Value: 0Umpire(2) Constraint 5: 4	Round: 8  game in that round: 43
+	Value: 0Umpire(2) Constraint 5: 6	Round: 9  game in that round: 47
+	Value: 0Umpire(2) Constraint 5: 3	Round: 9  game in that round: 47
+	Value: 0Umpire(2) Constraint 5: 8	Round: 10  game in that round: 54
+	Value: 0Umpire(2) Constraint 5: 6	Round: 10  game in that round: 54
+	Value: 0Umpire(2) Constraint 5: 3	Round: 11  game in that round: 56
+	Value: 0Umpire(2) Constraint 5: 7	Round: 11  game in that round: 56
+	Value: 0Umpire(2) Constraint 5: 3	Round: 12  game in that round: 61
+	Value: 0Umpire(2) Constraint 5: 9	Round: 12  game in that round: 61
+	Value: 0Umpire(2) Constraint 5: 9	Round: 13  game in that round: 69
+	Value: 0Umpire(2) Constraint 5: 2	Round: 13  game in that round: 69
+	Value: 0Umpire(2) Constraint 5: 2	Round: 14  game in that round: 71
+	Value: 0Umpire(2) Constraint 5: 4	Round: 14  game in that round: 71
+	Value: 0Umpire(2) Constraint 5: 2	Round: 15  game in that round: 76
+	Value: 0Umpire(2) Constraint 5: 5	Round: 15  game in that round: 76
+	Value: 0Umpire(2) Constraint 5: 3	Round: 16  game in that round: 82
+	Value: 0Umpire(2) Constraint 5: 4	Round: 16  game in that round: 82
+	Value: 0Umpire(2) Constraint 5: 8	Round: 17  game in that round: 88
+	Value: 0Umpire(2) Constraint 5: 7	Round: 17  game in that round: 88
+	Value: 0Umpire(3) Constraint 5: 3	Round: 0  game in that round: 1
+	Value: 0Umpire(3) Constraint 5: 2	Round: 0  game in that round: 1
+	Value: 0Umpire(3) Constraint 5: 5	Round: 1  game in that round: 8
+	Value: 0Umpire(3) Constraint 5: 2	Round: 1  game in that round: 8
+	Value: 0Umpire(3) Constraint 5: 6	Round: 2  game in that round: 14
+	Value: 0Umpire(3) Constraint 5: 9	Round: 2  game in that round: 14
+	Value: 0Umpire(3) Constraint 5: 1	Round: 3  game in that round: 15
+	Value: 0Umpire(3) Constraint 5: 8	Round: 3  game in that round: 15
+	Value: 0Umpire(3) Constraint 5: 2	Round: 4  game in that round: 21
+	Value: 0Umpire(3) Constraint 5: 6	Round: 4  game in that round: 21
+	Value: 0Umpire(3) Constraint 5: 8	Round: 5  game in that round: 28
+	Value: 0Umpire(3) Constraint 5: 0	Round: 5  game in that round: 28
+	Value: 0Umpire(3) Constraint 5: 5	Round: 6  game in that round: 33
+	Value: 0Umpire(3) Constraint 5: 9	Round: 6  game in that round: 33
+	Value: 0Umpire(3) Constraint 5: 6	Round: 7  game in that round: 37
+	Value: 0Umpire(3) Constraint 5: 2	Round: 7  game in that round: 37
+	Value: 0Umpire(3) Constraint 5: 0	Round: 8  game in that round: 40
+	Value: 0Umpire(3) Constraint 5: 5	Round: 8  game in that round: 40
+	Value: 0Umpire(3) Constraint 5: 9	Round: 9  game in that round: 49
+	Value: 0Umpire(3) Constraint 5: 4	Round: 9  game in that round: 49
+	Value: 0Umpire(3) Constraint 5: 1	Round: 10  game in that round: 50
+	Value: 0Umpire(3) Constraint 5: 7	Round: 10  game in that round: 50
+	Value: 0Umpire(3) Constraint 5: 5	Round: 11  game in that round: 58
+	Value: 0Umpire(3) Constraint 5: 0	Round: 11  game in that round: 58
+	Value: 0Umpire(3) Constraint 5: 0	Round: 12  game in that round: 60
+	Value: 0Umpire(3) Constraint 5: 6	Round: 12  game in that round: 60
+	Value: 0Umpire(3) Constraint 5: 4	Round: 13  game in that round: 66
+	Value: 0Umpire(3) Constraint 5: 3	Round: 13  game in that round: 66
+	Value: 0Umpire(3) Constraint 5: 5	Round: 14  game in that round: 72
+	Value: 0Umpire(3) Constraint 5: 8	Round: 14  game in that round: 72
+	Value: 0Umpire(3) Constraint 5: 6	Round: 15  game in that round: 77
+	Value: 0Umpire(3) Constraint 5: 0	Round: 15  game in that round: 77
+	Value: 0Umpire(3) Constraint 5: 7	Round: 16  game in that round: 83
+	Value: 0Umpire(3) Constraint 5: 6	Round: 16  game in that round: 83
+	Value: 0Umpire(3) Constraint 5: 1	Round: 17  game in that round: 85
+	Value: 0Umpire(3) Constraint 5: 2	Round: 17  game in that round: 85
+	Value: 0Umpire(4) Constraint 5: 4	Round: 0  game in that round: 2
+	Value: 0Umpire(4) Constraint 5: 9	Round: 0  game in that round: 2
+	Value: 0Umpire(4) Constraint 5: 4	Round: 1  game in that round: 7
+	Value: 0Umpire(4) Constraint 5: 7	Round: 1  game in that round: 7
+	Value: 0Umpire(4) Constraint 5: 0	Round: 2  game in that round: 10
+	Value: 0Umpire(4) Constraint 5: 4	Round: 2  game in that round: 10
+	Value: 0Umpire(4) Constraint 5: 6	Round: 3  game in that round: 17
+	Value: 0Umpire(4) Constraint 5: 4	Round: 3  game in that round: 17
+	Value: 0Umpire(4) Constraint 5: 9	Round: 4  game in that round: 24
+	Value: 0Umpire(4) Constraint 5: 0	Round: 4  game in that round: 24
+	Value: 0Umpire(4) Constraint 5: 5	Round: 5  game in that round: 27
+	Value: 0Umpire(4) Constraint 5: 3	Round: 5  game in that round: 27
+	Value: 0Umpire(4) Constraint 5: 4	Round: 6  game in that round: 32
+	Value: 0Umpire(4) Constraint 5: 1	Round: 6  game in that round: 32
+	Value: 0Umpire(4) Constraint 5: 9	Round: 7  game in that round: 39
+	Value: 0Umpire(4) Constraint 5: 8	Round: 7  game in that round: 39
+	Value: 0Umpire(4) Constraint 5: 2	Round: 8  game in that round: 41
+	Value: 0Umpire(4) Constraint 5: 1	Round: 8  game in that round: 41
+	Value: 0Umpire(4) Constraint 5: 2	Round: 9  game in that round: 46
+	Value: 0Umpire(4) Constraint 5: 7	Round: 9  game in that round: 46
+	Value: 0Umpire(4) Constraint 5: 3	Round: 10  game in that round: 52
+	Value: 0Umpire(4) Constraint 5: 0	Round: 10  game in that round: 52
+	Value: 0Umpire(4) Constraint 5: 8	Round: 11  game in that round: 59
+	Value: 0Umpire(4) Constraint 5: 2	Round: 11  game in that round: 59
+	Value: 0Umpire(4) Constraint 5: 7	Round: 12  game in that round: 64
+	Value: 0Umpire(4) Constraint 5: 2	Round: 12  game in that round: 64
+	Value: 0Umpire(4) Constraint 5: 7	Round: 13  game in that round: 68
+	Value: 0Umpire(4) Constraint 5: 1	Round: 13  game in that round: 68
+	Value: 0Umpire(4) Constraint 5: 6	Round: 14  game in that round: 73
+	Value: 0Umpire(4) Constraint 5: 7	Round: 14  game in that round: 73
+	Value: 0Umpire(4) Constraint 5: 8	Round: 15  game in that round: 79
+	Value: 0Umpire(4) Constraint 5: 3	Round: 15  game in that round: 79
+	Value: 0Umpire(4) Constraint 5: 1	Round: 16  game in that round: 80
+	Value: 0Umpire(4) Constraint 5: 5	Round: 16  game in that round: 80
+	Value: 0Umpire(4) Constraint 5: 3	Round: 17  game in that round: 86
+	Value: 0Umpire(4) Constraint 5: 5	Round: 17  game in that round: 86
+	Value: 0

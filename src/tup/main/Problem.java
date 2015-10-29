@@ -99,10 +99,12 @@ public class Problem {
 					games[m][1] = this.opponents[round][team - 1];
 					gameToRound[m] = round;
 					roundTeamToGame[round][team - 1] = m;
+					roundTeamToGame[round][Math.abs(this.opponents[round][team-1])-1] = m;
 					m++;
-				} else {
-					roundTeamToGame[round][team - 1] = -1;
-				}
+				} 
+				//else {
+				//	roundTeamToGame[round][team - 1] = -1;
+				//}
 			}
 		}
 
@@ -123,7 +125,7 @@ public class Problem {
 		return "Problem [nTeams=" + nTeams + ",\n dist=" + Arrays.deepToString(dist) + ",\n opponents="
 				+ Arrays.deepToString(opponents) + ",\n distGames=" + Arrays.deepToString(distGames) + ",\n nUmpires="
 				+ nUmpires + ",\n nGames=" + nGames + ",\n nRounds=" + nRounds + ",\n q1=" + q1 + ",\n q2=" + q2
-				+ ",\n games=" + Arrays.deepToString(games) + ",\n gameToRound= " + gameToRound.toString()
+				+ ",\n games=" + Arrays.deepToString(games) + ",\n gameToRound= " + Arrays.toString(gameToRound)
 				+ ",\n roundTeamToGame=" + Arrays.deepToString(roundTeamToGame) + ",\n possibleVisists= "
 				+ Arrays.deepToString(possibleVisits) + "]";
 	}

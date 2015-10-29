@@ -27,8 +27,12 @@ public class TUPSolver {
 	int[][] homeTeamToGame;
 	int[][] awayTeamToGame;
 
-	int gamesPerRound, annealinglvl, roundOfGameOfHomeTeam, roundOfGameOfAwayTeam;
-
+	int gamesPerRound, annealinglvl, gameOfHomeTeamInNextRound, gameOfAwayTeamInNextRound;
+	int numberConstraint1=0;
+	int numberConstraint5=0;
+	int numberConstraint2=0;
+	int numberConstraint3=0;
+	int numberConstraint4=0;
 	public TUPSolver(int annealinglvl) {
 		localsolver = new LocalSolver();
 		model = localsolver.getModel();
@@ -42,6 +46,8 @@ public class TUPSolver {
 			problem = problemReader.readProblemFromFile(instanceFile, 1, 1, "test");
 			problem.setTournament(problem.opponents);
 			gamesPerRound = problem.nTeams / 2;
+			problem.q1 = problem.nUmpires;
+			problem.q2 = problem.nUmpires /2;
 
 		} catch (IOException ioe) {
 			System.out.println("IOException: " + ioe.getMessage());
@@ -81,6 +87,7 @@ public class TUPSolver {
 			for (int u = 0; u < problem.nUmpires; u++) {
 				for (int g = 0; g < problem.nGames; g++) {
 					umpireAssignment[u][g] = model.boolVar();
+					umpireAssignment[u][g].setName("Umpire assignment of umpire " + u + "to game " + g);
 				}
 			}
 
@@ -89,10 +96,12 @@ public class TUPSolver {
 				umpireDistanceTraveled[u] = this.model.sum();
 			}
 
-			// De keren dat een umpire een team visit wordt gezien al een sommatie. 
+			// De keren dat een umpire een team visit wordt gezien al een
+			// sommatie.
 			for (int u = 0; u < problem.nUmpires; u++) {
 				for (int t = 0; t < problem.nTeams; t++) {
 					timesTeamVisitedHome[u][t] = model.sum();
+					timesTeamVisitedHome[u][t].setName("Team " + t + " visists by umpire " + u);
 				}
 			}
 
@@ -130,24 +139,30 @@ public class TUPSolver {
 			/**
 			 * First constraint for TUP Every game umpired by exactly one umpire
 			 */
+			
 			for (int g = 0; g < problem.nGames; g++) {
 				LSExpression gameUmpired = model.sum();
 				for (int u = 0; u < problem.nUmpires; u++) {
 					gameUmpired.addOperand(umpireAssignment[u][g]);
+					numberConstraint1++;
 				}
-				model.constraint(model.eq(gameUmpired, 1));
+				gameUmpired.setName("Constraint 1 for game " + g);
+				model.addConstraint(model.eq(gameUmpired, 1));
 			}
 
 			/**
 			 * Second constraint for TUP Every umpire works in every round
 			 */
+			
 			for (int u = 0; u < problem.nUmpires; u++) {
 				for (int r = 0; r < problem.nRounds; r++) {
 					LSExpression timesWorked = model.sum();
 					for (int g = 0; g <= gamesPerRound - 1; g++) {
 						timesWorked.addOperand(umpireAssignment[u][r * (gamesPerRound) + g]);
+						numberConstraint2++;
 					}
-					model.constraint(model.eq(timesWorked, 1));
+					timesWorked.setName("Constraint 2 for round  " + r + " and umpire " + u);
+					model.addConstraint(model.eq(timesWorked, 1));
 				}
 			}
 
@@ -155,48 +170,82 @@ public class TUPSolver {
 			// of every team at least once
 			// So the times an umpire visits a team must be greater of equal
 			// than 1
-
+			
 			for (int u = 0; u < problem.nUmpires; u++) {
 				for (int t = 0; t < problem.nTeams; t++) {
-					model.constraint(model.geq(timesTeamVisitedHome[u][t], 1));
+					LSExpression teamVisited = model.geq(timesTeamVisitedHome[u][t], 1);
+					teamVisited.setName("Constraint 3 for umpire " + u + " at team " + t);
+					model.addConstraint(teamVisited);
+					numberConstraint3++;
 				}
 			}
 
-			// Bij constraint 4 mag een umpire een venue pas na q1-1 ronden terug zien.
-			// We gaan voor elke game kijken wat het home team is en in welke ronde het game plaats vindt.
-			// We gaan dan naar de volgende ronden kijken en het gameID van het homeTeam in die ronde opvragen door gebruik te maken
+			// Bij constraint 4 mag een umpire een venue pas na q1-1 ronden
+			// terug zien.
+			// We gaan voor elke game kijken wat het home team is en in welke
+			// ronde het game plaats vindt.
+			// We gaan dan naar de volgende ronden kijken en het gameID van het
+			// homeTeam in die ronde opvragen door gebruik te maken
 			// van de matrix roundTeamToGame.
-			// Als we deze gameID hebben, dan weten we dus in welke game het team speelt in ronde r.
-			// Door nu te zeggen dat de sommatie van de toekenningen over de ronde kleiner of gelijk moet zijn aan 1, is constraint 4 gedefinieerd.
+			// Als we deze gameID hebben, dan weten we dus in welke game het
+			// team speelt in ronde r.
+			// Door nu te zeggen dat de sommatie van de toekenningen over de
+			// ronde kleiner of gelijk moet zijn aan 1, is constraint 4
+			// gedefinieerd.
+			String constraintName;
 			for (int u = 0; u < problem.nUmpires; u++) {
 				for (int g = 0; g < problem.nGames; g++) {
 					int round = problem.gameToRound[g];
-					int homeTeam = problem.games[g][0];
+					System.out.println("Round: " + round);
+					int homeTeam = problem.games[g][0] - 1;
+					System.out.println(homeTeam);
 					LSExpression constraint4 = model.sum(umpireAssignment[u][g]);
-					for (int r = problem.gameToRound[g]; r < Math.min(problem.nRounds - round, problem.q1); r++) {
-						roundOfGameOfHomeTeam = problem.roundTeamToGame[r][homeTeam];
-						constraint4.addOperand(umpireAssignment[u][roundOfGameOfHomeTeam]);
+					constraintName = new String("Umpire(" + u + ") Constraint 4: " + homeTeam);
+					for (int r = 0; r < Math.min(problem.nRounds - round, problem.q1); r++) {
+						gameOfHomeTeamInNextRound = problem.roundTeamToGame[r + round][homeTeam];
+						constraintName += " Round: " + (r + round) + "  game in that round: "
+								+ gameOfHomeTeamInNextRound + '\n';
+						constraint4.addOperand(umpireAssignment[u][gameOfHomeTeamInNextRound]);
 					}
-					model.constraint(model.leq(constraint4, 1));
+					LSExpression hulp = model.leq(constraint4, 1);
+					hulp.setName(constraintName);
+					System.out.println(constraintName);
+					constraint4 = null;
+					model.addConstraint(hulp);
+					numberConstraint4++;
 				}
 			}
 
 			// new constraint 5
+			String constraintHomeTeamName, constraintAwayTeamName;
+			
 			for (int u = 0; u < problem.nUmpires; u++) {
 				for (int g = 0; g < problem.nGames; g++) {
 					int round = problem.gameToRound[g];
-					int homeTeam = problem.games[g][0];
-					int awayTeam = problem.games[g][1];
+					int homeTeam = problem.games[g][0] - 1;
+					int awayTeam = problem.games[g][1] - 1;
+					System.out.println("Hometeam: " + homeTeam + "AwayTeam: " + awayTeam);
 					LSExpression constraint5HomeTeam = model.sum(umpireAssignment[u][g]);
 					LSExpression constraint5AwayTeam = model.sum(umpireAssignment[u][g]);
-					for (int i = problem.gameToRound[g]; i < Math.min(problem.nRounds - round, problem.q2); i++) {
-						roundOfGameOfHomeTeam = problem.roundTeamToGame[i][homeTeam];
-						roundOfGameOfAwayTeam = problem.roundTeamToGame[i][awayTeam];
-						constraint5HomeTeam.addOperand(umpireAssignment[u][roundOfGameOfHomeTeam]);
-						constraint5AwayTeam.addOperand(umpireAssignment[u][roundOfGameOfAwayTeam]);
+					constraintHomeTeamName = new String("Umpire(" + u + ") Constraint 5: " + homeTeam);
+					constraintAwayTeamName = new String("Umpire(" + u + ") Constraint 5: " + awayTeam);
+					for (int i = 0; i < Math.min(problem.nRounds - round, problem.q2); i++) {
+						gameOfHomeTeamInNextRound = problem.roundTeamToGame[i + round][homeTeam];
+						gameOfAwayTeamInNextRound = problem.roundTeamToGame[i + round][awayTeam];
+						constraintHomeTeamName += "\tRound: " + (i + round) + "  game in that round: "
+								+ gameOfHomeTeamInNextRound + '\n';
+						constraintAwayTeamName += "\tRound: " + (i + round) + "  game in that round: "
+								+ gameOfAwayTeamInNextRound + '\n';
+						constraint5HomeTeam.addOperand(umpireAssignment[u][gameOfHomeTeamInNextRound]);
+						constraint5AwayTeam.addOperand(umpireAssignment[u][gameOfAwayTeamInNextRound]);
 					}
-					model.constraint(model.leq(constraint5HomeTeam, 1));
-					model.constraint(model.leq(constraint5AwayTeam, 1));
+					LSExpression hulpHomeTeam = model.leq(constraint5HomeTeam, 1);
+					LSExpression hulpAwayTeam = model.leq(constraint5AwayTeam, 1);
+					hulpHomeTeam.setName(constraintHomeTeamName);
+					hulpAwayTeam.setName(constraintAwayTeamName);
+					model.addConstraint(hulpHomeTeam);
+					model.addConstraint(hulpAwayTeam);
+					numberConstraint5 = numberConstraint5+2;
 				}
 			}
 
@@ -267,10 +316,55 @@ public class TUPSolver {
 			}
 			bufferedWriter.write("Solution Status from LocalSolver: " + lsSolution.getStatus().toString() + "\n\n");
 			bufferedWriter.write(solution.toString());
+			bufferedWriter.write("Violated Constrainsts\n");
+			for (int i = 0; i < model.getNbConstraints(); i++) {
+				if (model.getConstraint(i).isViolated()) {
+					String output = model.getConstraint(i).getName() + "\tValue: " + model.getConstraint(i).getValue();
+					bufferedWriter.write(output);
+				}
+			}
 			bufferedWriter.close();
 
 		} catch (IOException ie) {
 			ie.printStackTrace();
+		}
+	}
+
+	public void writeViolatedConstraints(String outputFile) {
+		int NBConstraint1 = 0;
+		int NBConstraint2 = 0;
+		int NBConstraint3 = 0;
+		int NBConstraint4 = 0;
+		int NBConstraint5 = 0;
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+			for (int i = 0; i < model.getNbConstraints(); i++) {
+				if (model.getConstraint(i).isViolated()) {
+					String violatedName = model.getConstraint(i).getName();
+					if (violatedName.contains("Constraint 1")) {
+						NBConstraint1++;
+					} else if (violatedName.contains("Constraint 2")) {
+						NBConstraint2++;
+					} else if (violatedName.contains("Constraint 3")) {
+						NBConstraint3++;
+					} else if (violatedName.contains("Constraint 4")) {
+						NBConstraint4++;
+					} else if (violatedName.contains("Constraint 5")) {
+						NBConstraint5++;
+					}
+					writer.write(violatedName);
+					writer.write("\t" + model.getConstraint(i).getIntValue() + "\n");
+				}
+			}
+			writer.write("Number of constraint 1 violations: "+NBConstraint1+"\tTotal Constrain 1: "+numberConstraint1+"\n");
+			writer.write("Number of constraint 2 violations: "+NBConstraint2+"\tTotal Constrain 2: "+numberConstraint2+"\n");
+			writer.write("Number of constraint 3 violations: "+NBConstraint3+"\tTotal Constrain 3: "+numberConstraint3+"\n");
+			writer.write("Number of constraint 4 violations: "+NBConstraint4+"\tTotal Constrain 4: "+numberConstraint4+"\n");
+			writer.write("Number of constraint 5 violations: "+NBConstraint5+"\tTotal Constrain 5: "+numberConstraint5+"\n");
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
