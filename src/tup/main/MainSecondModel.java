@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class MainSecondModel {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 //		File directory = new File("/Users/Lennart/git/BP-TUP-Thesis/instances/");
 //		File[] files = directory.listFiles();
@@ -20,7 +20,7 @@ public class MainSecondModel {
 		TUPSolver2 solver = new TUPSolver2(1);
 		solver.readInstance("/Users/Lennart/git/BP-TUP-Thesis/instances/umps10.txt");
 		solver.instantiateArrays();
-		solver.solve(5);
+		solver.solve(60);
 		solver.printViolatedConstraints();
 		
 		
