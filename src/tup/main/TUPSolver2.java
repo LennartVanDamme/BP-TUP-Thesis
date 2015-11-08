@@ -9,9 +9,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-
 
 import localsolver.LSException;
 import localsolver.LSExpression;
@@ -46,6 +45,9 @@ public class TUPSolver2 {
 	// ronde verbonden met het eerste gameß
 	int[][] edgeToGame;
 	ArrayList<ArrayList<Integer>> gameNrToEgdeNrs = new ArrayList<ArrayList<Integer>>();
+	HashMap<TUPKey, Integer> gameToEdgeMap = new HashMap<TUPKey, Integer>();
+	int[][] constraint4Matrix;
+	int[][] constraint5Matrix;
 
 	public TUPSolver2(int annealingLvl) {
 		solver = new LocalSolver();
@@ -65,6 +67,10 @@ public class TUPSolver2 {
 			edgesPerRound = gamesPerRound * gamesPerRound;
 			roundEdges = edgesPerRound * (problem.nRounds - 1);
 			totalAmountEdges = roundEdges + gamesPerRound;
+			problem.q1 = problem.nUmpires;
+			problem.q2 = problem.nUmpires / 2;
+			System.out.println("Q1"+problem.q1);
+			System.out.println("Q2"+problem.q2);
 
 		} catch (IOException ioe) {
 			System.out.println("IOException: " + ioe.getMessage());
@@ -80,6 +86,8 @@ public class TUPSolver2 {
 
 	public void instantiateArrays() {
 		edgeToGame = new int[totalAmountEdges][2];
+		constraint4Matrix = new int[problem.nTeams][problem.nRounds];
+		constraint5Matrix = new int[problem.nTeams][problem.nRounds];
 		for (int i = 0; i < problem.nGames; i++) {
 			gameNrToEgdeNrs.add(new ArrayList<Integer>());
 		}
@@ -91,15 +99,35 @@ public class TUPSolver2 {
 				ronde++;
 			}
 			int firstGame = e / gamesPerRound;
+			int secondGame = ronde * gamesPerRound + e % gamesPerRound;
 			edgeToGame[e][0] = firstGame;
-			edgeToGame[e][1] = ronde * gamesPerRound + e % gamesPerRound;
+			edgeToGame[e][1] = secondGame;
 			gameNrToEgdeNrs.get(firstGame).add(e);
+			gameToEdgeMap.put(new TUPKey(firstGame, secondGame), e);
 			hulp--;
 		}
 		for (int e = 0; e < gamesPerRound; e++) {
 			edgeToGame[roundEdges + e][0] = ronde * gamesPerRound + e % gamesPerRound;
 			edgeToGame[roundEdges + e][1] = -1;
 			gameNrToEgdeNrs.get(ronde * gamesPerRound + e % gamesPerRound).add(roundEdges + e);
+		}
+
+		for (int r = 0; r < problem.nRounds; r++) {
+			for (int team = 0; team < problem.nTeams; team++) {
+				for (int gameInRound = 0; gameInRound < gamesPerRound; gameInRound++) {
+					int game = r * gamesPerRound + gameInRound;
+					int homeTeam = problem.games[game][0] - 1;
+					int awayTeam = problem.games[game][1] - 1;
+					if (team == homeTeam || team == awayTeam) {
+						constraint5Matrix[team][r] = game;
+						if (team == homeTeam) {
+							constraint4Matrix[team][r] = game;
+						} else {
+							constraint4Matrix[team][r] = -1;
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -215,67 +243,60 @@ public class TUPSolver2 {
 			// Voor elke umpire
 			for (int u = 0; u < problem.nUmpires; u++) {
 
-				// Voor elke ronde
-				for (int startRonde = 0; startRonde < problem.nRounds - 1; startRonde++) {
-					int eindRonde = Math.min(problem.nRounds - startRonde, problem.q1);
+				// Voor elk team de constraint4Matrix doorlopen
+				for (int team = 0; team < problem.nTeams; team++) {
 
-					// Voor elk team
-					for (int team = 0; team < problem.nTeams; team++) {
-						
-						ArrayList<Integer> gamesOfTeam = new ArrayList<Integer>();
-						List<Integer> edgesOfTeam = new ArrayList<Integer>();
+					// Opbouwen van het window
+					for (int startRonde = 0; startRonde < problem.nRounds - 1; startRonde++) {
+						int eindRonde = startRonde + Math.min(problem.nRounds - startRonde, problem.q1);
 
-						// Het window doorlopen
-						for (int ronde = startRonde; ronde < eindRonde; ronde++) {
-							
-							for (int game = 0; game < gamesPerRound; game++) {
-								
-								// Geeft het gameNr
-								int gameNrinRonde = ronde * gamesPerRound + game;
-								// Kijken of het thuisteam van gamNrinRonde gelijk is aan het team
-								if (problem.games[gameNrinRonde][0] - 1 == team) {
-									// Opslaan van de gameNrinRonde in de lijst van games van het team
-									gamesOfTeam.add(gameNrinRonde);
-								}
-							}
-						}
-						
-						// Zo krijgen we ge volgorde van games in de opeenvolgende ronde
-						Collections.sort(gamesOfTeam);
-						
-						for (int game = 0; game < gamesOfTeam.size()-1; game++) {
-							
-							// Dit geeft de edges van Game game
-							List <Integer> edgesOfGame = gameNrToEgdeNrs.get(game);
-							
-							// Kijken of het team van de van het tweede game gelijk is aan het huidige team
-							
-							// Voorbeeld     O (game)
-							//             / | \
-							//            O  O  O (gameOfTeamInNextRound)
-							for(Integer edge : edgesOfGame){
-								int gameOfTeamInNextRound = edgeToGame[edge][1];
-								if(team == problem.games[gameOfTeamInNextRound][0]-1){
-									edgesOfTeam.add(edge);
-								}
-							}
-						}
-						
+						// Voor elke ronde in het window gaan we kijken of het
+						// game van deze ronde niet gelijk is aan -1
+						// en of het game in de volgende ronde ook niet gelijk
+						// is aan -1.
+						// Indien dit het geval is dan kunnen we de edge te
+						// weten komen en deze edge toevoegen aan constarint 4.
 						LSExpression constraint4 = model.sum();
-						String constraintName = new String("Constraint 4 voor umpire "+(u+1) + " Edges --> ");
-						for(Integer edge: edgesOfTeam){
-							constraint4.addOperand(umpireAssignment[u][edge]);
-							constraintName += edge.toString()+" ";
+						for (int ronde = startRonde; ronde < eindRonde - 1; ronde++) {
+							// Kijken of er een verbinding is tussen games
+							if (constraint4Matrix[team][ronde] != -1 && constraint4Matrix[team][ronde + 1] != -1) {
+								// Het opzoeken van het edgenummer als dit
+								// inderaad zo is
+								int edge = gameToEdgeMap.get(
+										new TUPKey(constraint4Matrix[team][ronde], constraint4Matrix[team][ronde + 1]));
+								// Toevoegen van de assignment aan de constraint
+								constraint4.addOperand(umpireAssignment[u][edge]);
+							}
 						}
-						constraint4.setName(constraintName);
-						model.constraint(model.leq(constraint4, 1));
-						numberConstraint4++;
+						model.addConstraint(model.leq(constraint4, 1));
 					}
 				}
-
 			}
+
+			// Constraint 5 : An umpire cannot see the same team in q2 rounds
 			
-			// Constraint 5 : 
+			// Voor elke umpire
+			for (int u = 0; u < problem.nUmpires; u++) {
+				
+				// Voor elke team de constraint5Matrix doorlopen
+				for(int team = 0; team < problem.nTeams; team++){
+					
+					// Opbouwen van het window
+					for(int startRonde = 0; startRonde < problem.nRounds - 1; startRonde++){
+						int eindRonde = startRonde + Math.min(problem.nRounds - startRonde, problem.q2);
+						
+						// Het window doorlopen
+						LSExpression constraint5 = model.sum();
+						for(int ronde = startRonde; ronde < eindRonde -1; ronde++){
+							// De edge opzoeken die de twee games verbint
+							int edge = gameToEdgeMap.get(new TUPKey(constraint5Matrix[team][ronde], constraint5Matrix[team][ronde+1]));
+							constraint5.addOperand(umpireAssignment[u][edge]);
+						}
+						model.addConstraint(model.leq(constraint5, 1));
+						
+					}
+				}
+			}
 
 			totalDistanceTraveled = model.sum(umpireDistanceTraveled);
 			model.minimize(totalDistanceTraveled);
@@ -361,6 +382,19 @@ public class TUPSolver2 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void printGames() throws IOException {
+		BufferedWriter writer = new BufferedWriter(new FileWriter(new File("/Users/Lennart/Desktop/games.txt")));
+		for (int ronde = 0; ronde < problem.nRounds; ronde++) {
+			writer.write("RONDE " + (ronde + 1) + "\n");
+			for (int game = 0; game < gamesPerRound; game++) {
+				int gameNr = ronde * gamesPerRound + game;
+				writer.write("[" + problem.games[gameNr][0] + "," + problem.games[gameNr][1] + "] ");
+			}
+			writer.write("\n");
+		}
+		writer.close();
 	}
 
 }

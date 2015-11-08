@@ -2,6 +2,7 @@ package tup.main;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class MainSecondModel {
 
@@ -21,7 +22,6 @@ public class MainSecondModel {
 		solver.readInstance("/Users/Lennart/git/BP-TUP-Thesis/instances/umps10.txt");
 		solver.instantiateArrays();
 		solver.solve(60);
-		solver.printViolatedConstraints();
 		
 		
 	}
