@@ -19,6 +19,8 @@ import localsolver.LSPhase;
 import localsolver.LSSolution;
 import localsolver.LocalSolver;
 
+// VERZEKEREN DAT ER VERTROKKEN WORDT UIT HET CORRECTE GAME
+
 public class TUPSolver2 {
 
 	LocalSolver solver;
@@ -382,6 +384,24 @@ public class TUPSolver2 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void createSolution(){
+		solution = new Solution(problem);
+		for(int u = 0; u < problem.nUmpires; u++){
+			for(int e = 0; e < totalAmountEdges; e++){
+				int game = edgeToGame[e][0];
+				int round = problem.gameToRound[game];
+				solution.assignment[round][u] = game;
+				
+			}
+		}
+    	solution.printAssignmentDetail();
+    	solution.calculateConsecutiveViolations();
+    	solution.calculateHomeVisitViolations();
+    	solution.calculateTravelDistance();
+    	solution.calculateScore();
+    	System.out.println(solution.toString());
 	}
 
 	public void printGames() throws IOException {
