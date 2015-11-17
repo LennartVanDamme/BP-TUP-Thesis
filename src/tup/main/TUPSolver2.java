@@ -452,9 +452,17 @@ public class TUPSolver2 {
 		solution = new Solution(problem);
 		for (int u = 0; u < problem.nUmpires; u++) {
 			for (int e = 0; e < totalAmountOfEdges; e++) {
-				int game = edgeToGames[e][0];
-				int round = problem.gameToRound[game];
-				solution.assignment[round][u] = game;
+				int firstGame = edgeToGames[e][0];
+				int secondGame = edgeToGames[e][1];
+				if(firstGame != -1){
+					int round = problem.gameToRound[firstGame];
+					solution.assignment[round][u] = firstGame;
+				}
+				if(secondGame != -1){
+					int round = problem.gameToRound[secondGame];
+					solution.assignment[round][u] = secondGame;
+				}
+				
 
 			}
 		}
