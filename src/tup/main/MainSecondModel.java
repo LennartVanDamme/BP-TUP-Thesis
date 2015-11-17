@@ -1,8 +1,6 @@
 package tup.main;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class MainSecondModel {
 
@@ -18,7 +16,7 @@ public class MainSecondModel {
 //					+ extracFile(file.getName())+"Output.txt");
 //		}
 		
-		TUPSolver2 solver = new TUPSolver2(1);
+		TUPSolver2 solver = new TUPSolver2(9);
 		solver.readInstance("/Users/Lennart/git/BP-TUP-Thesis/instances/umps10.txt");
 		solver.instantiateArrays();
 		solver.solve(60);

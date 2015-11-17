@@ -202,6 +202,7 @@ public class TUPSolver3 {
 
 					// voor ieder team
 					for (int team = 0; team < problem.nTeams; team++) {
+						
 						List<Integer> gamesWithHomeTeamInWindow = new ArrayList<>();
 
 						// het window doorzoeken naar games met hometeam = team
