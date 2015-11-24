@@ -107,11 +107,11 @@ public class TUPSolver {
              * Every game umpired by exactly one umpire
              */
             for(int g = 0; g <= this.problem.nGames-1; g++){
-            	LSExpression gameUmpired = this.model.sum();
+            	LSExpression constraint1 = this.model.sum();
             	for(int u = 0; u <= this.problem.nUmpires-1; u++){
-            		gameUmpired.addOperand(umpireAssignment[u][g]);
+            		constraint1.addOperand(umpireAssignment[u][g]);
             	}
-            	this.model.constraint(this.model.eq(gameUmpired, 1));
+            	this.model.constraint(this.model.eq(constraint1, 1));
             }
 
             /**
