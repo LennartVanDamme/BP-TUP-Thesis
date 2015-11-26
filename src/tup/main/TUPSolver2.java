@@ -12,15 +12,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.batik.css.engine.SystemColorSupport;
-
 import localsolver.LSException;
 import localsolver.LSExpression;
 import localsolver.LSModel;
 import localsolver.LSPhase;
 import localsolver.LSSolution;
 import localsolver.LocalSolver;
-
 
 public class TUPSolver2 {
 
@@ -50,9 +47,11 @@ public class TUPSolver2 {
 	ArrayList<ArrayList<Integer>> gameNrToEgdeNrs = new ArrayList<ArrayList<Integer>>();
 	HashMap<TUPKey, Integer> gameToEdgeMap = new HashMap<TUPKey, Integer>();
 
-	// homeGamesOfTeamInRound[team][ronde] = game als het team in die ronde thuis
+	// homeGamesOfTeamInRound[team][ronde] = game als het team in die ronde
+	// thuis
 	// speelt
-	// homeGamesOfTeamInRound[team][ronde] = -1 als het team in die ronde niet thus
+	// homeGamesOfTeamInRound[team][ronde] = -1 als het team in die ronde niet
+	// thus
 	// speelt
 	int[][] homeGamesOfTeamInRound;
 
@@ -162,13 +161,13 @@ public class TUPSolver2 {
 			constraint1.setName("Constraint 1 voor game " + game);
 
 			// for every umpire
-			for (int u=0; u < problem.nUmpires; u++) {
+			for (int u = 0; u < problem.nUmpires; u++) {
 
 				// add all entering edges to constraint
 				for (Integer edge : edges) {
 					constraint1.addOperand(umpireAssignment[u][edge]);
 				}
-				
+
 			}
 			model.constraint(model.eq(constraint1, 1));
 			numberConstraint1++;
@@ -185,8 +184,7 @@ public class TUPSolver2 {
 		// Flowrepresentatie beginend bij de source node
 		for (int u = 0; u < problem.nUmpires; u++) {
 
-			
-			/* ------------- Constraint 2 for source node ---------------*/
+			/* ------------- Constraint 2 for source node --------------- */
 			LSExpression flowConstraintSourceNode = model.sum();
 			flowConstraintSourceNode.setName("Flow constraint voor de source node bij umpire " + u);
 
@@ -199,9 +197,7 @@ public class TUPSolver2 {
 			model.constraint(constraint2Sourcenode);
 			numberConstraint2++;
 
-
-
-			/* ------------- Constraint 2 for sink node ---------------*/
+			/* ------------- Constraint 2 for sink node --------------- */
 			LSExpression flowConstraintSinkNode = model.sum();
 			flowConstraintSinkNode.setName("Flow constraint voor de sink node bij umpire " + u);
 
@@ -214,9 +210,7 @@ public class TUPSolver2 {
 			model.constraint(constraint2Sinknode);
 			numberConstraint2++;
 
-
-
-			/* ------------- Constraint 2 for all games ---------------*/
+			/* ------------- Constraint 2 for all games --------------- */
 
 			for (int game = 0; game < problem.nGames; game++) {
 
@@ -228,7 +222,7 @@ public class TUPSolver2 {
 				}
 
 				List<Integer> edgesLeavingGame = edgesLeavingGames.get(game);
-				
+
 				LSExpression sumLeavingEdges = model.sum();
 				for (Integer edge : edgesLeavingGame) {
 					sumLeavingEdges.addOperand(umpireAssignment[u][edge]);
@@ -236,7 +230,6 @@ public class TUPSolver2 {
 
 				LSExpression constraint2 = model.sub(sumEnteringEdges, sumLeavingEdges);
 				constraint2.setName("Constraint 2 voor game " + game + " bij umpire " + u);
-
 
 				model.constraint(model.eq(constraint2, 0));
 				numberConstraint2++;
@@ -252,14 +245,14 @@ public class TUPSolver2 {
 	private void makeConstraint3() {
 
 		for (int u = 0; u < problem.nUmpires; u++) {
-			
+
 			for (int team = 0; team < problem.nTeams; team++) {
-				
+
 				LSExpression constraint3 = model.sum();
 				constraint3.setName("Constraint 3 voor umpire " + u + " en team " + team);
-				
+
 				for (int ronde = 0; ronde < problem.nRounds; ronde++) {
-					
+
 					if (homeGamesOfTeamInRound[team][ronde] != -1) {
 						List<Integer> edges = edgesEnteringGames.get(homeGamesOfTeamInRound[team][ronde]);
 						for (Integer edge : edges) {
@@ -298,7 +291,7 @@ public class TUPSolver2 {
 
 						}
 					}
-					
+
 					LSExpression constraint4 = model.sum();
 					for (Integer game : gamesOfTeamInWindow) {
 						List<Integer> edges = edgesEnteringGames.get(game);
@@ -325,7 +318,7 @@ public class TUPSolver2 {
 				int eindRonde = startRonde + problem.q2;
 
 				for (int team = 0; team < problem.nTeams; team++) {
-					
+
 					List<Integer> gamesInWindow = new ArrayList<Integer>();
 
 					for (int ronde = startRonde; ronde < eindRonde; ronde++) {
@@ -340,10 +333,10 @@ public class TUPSolver2 {
 
 					LSExpression constraint5 = model.sum();
 					constraint5.setName("Constraint 4 voor umpire " + u + " voor window [" + startRonde + ","
-							+ eindRonde + "] bij team "+team);
-					for(Integer game: gamesInWindow){
-						List<Integer> edges =  edgesEnteringGames.get(game);
-						for(Integer edge : edges){
+							+ eindRonde + "] bij team " + team);
+					for (Integer game : gamesInWindow) {
+						List<Integer> edges = edgesEnteringGames.get(game);
+						for (Integer edge : edges) {
 							constraint5.addOperand(umpireAssignment[u][edge]);
 						}
 					}
@@ -356,18 +349,17 @@ public class TUPSolver2 {
 
 	public void solve(int limit) {
 		try {
-			
+
 			model = solver.getModel();
-			
+
 			umpireAssignment = new LSExpression[problem.nUmpires][totalAmountOfEdges];
 			totalDistanceTraveled = model.sum();
-			
-			for(int u = 0; u < problem.nUmpires; u++){
-				for(int e = 0; e < totalAmountOfEdges; e++){
+
+			for (int u = 0; u < problem.nUmpires; u++) {
+				for (int e = 0; e < totalAmountOfEdges; e++) {
 					umpireAssignment[u][e] = model.boolVar();
 				}
 			}
-
 
 			// Totale afstand die de umpires moeten afleggen
 			for (int e = edgesPerRound; e < (totalAmountOfEdges - edgesPerRound); e++) {
@@ -478,15 +470,15 @@ public class TUPSolver2 {
 	public void createSolution() {
 		solution = new Solution(problem);
 		for (int u = 0; u < problem.nUmpires; u++) {
-			for(int e = 0; e < totalAmountOfEdges; e++){
-				if(umpireAssignment[u][e].getValue() == 1){
-					System.out.println("Umpire "+u+" toegekent aan edge "+e);
+			for (int e = 0; e < totalAmountOfEdges; e++) {
+				if (umpireAssignment[u][e].getValue() == 1) {
+					// System.out.println("Umpire "+u+" toegekent aan edge "+e);
 					int firstGame = edgeToGames[e][0];
 					int secondGame = edgeToGames[e][1];
-					if(firstGame != -1){
+					if (firstGame != -1) {
 						solution.assignment[problem.gameToRound[firstGame]][u] = firstGame;
 					}
-					if(secondGame != -1){
+					if (secondGame != -1) {
 						solution.assignment[problem.gameToRound[secondGame]][u] = secondGame;
 					}
 				}
@@ -497,10 +489,10 @@ public class TUPSolver2 {
 		solution.calculateHomeVisitViolations();
 		solution.calculateTravelDistance();
 		solution.calculateScore();
-		System.out.println(solution.toString());
+		// System.out.println(solution.toString());
 	}
 
-	public void writeSolution(String path){
+	public void writeSolution(String path) {
 		try {
 			BufferedWriter br = new BufferedWriter(new FileWriter(new File(path)));
 			br.write(solution.toString());
@@ -510,7 +502,7 @@ public class TUPSolver2 {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void printGames() throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(new File("/Users/Lennart/Desktop/games.txt")));
 		for (int ronde = 0; ronde < problem.nRounds; ronde++) {
